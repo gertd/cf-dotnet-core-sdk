@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp1.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Authentication\ThinkTectureAuthentication.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Authentication\ThinkTectureAuthentication.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="10.0.1-beta1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\CloudFoundry.CloudController.Common\CloudFoundry.CloudController.Common.csproj" />
+  </ItemGroup>
+
+</Project>
