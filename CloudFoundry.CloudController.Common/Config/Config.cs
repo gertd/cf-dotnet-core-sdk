@@ -1,8 +1,11 @@
 ﻿namespace CloudFoundry.CloudController.Common.Config
 {
-    using System.Collections.Generic;
+	using System;
+	using System.Collections.Generic;
+	using System.IO;
+	using Newtonsoft.Json;
 
-    public class Config
+	public class Config
     {
         public int ConfigVersion { get; set; }
         public string Target { get; set; }
@@ -26,5 +29,39 @@
         public List<PlugInRepo> PluginRepos { get; set; }
         public string MinCLIVersion { get; set; }
         public string MinRecommendedCLIVersion { get; set; }
+
+		public static Config Load()
+		{
+			return Load(Path.Combine(GetHomeDirectory(), ".cf", "config.json"));
+		}
+
+		public static Config Load(string filepath)
+		{
+			using (StreamReader file = File.OpenText(Path.Combine(GetHomeDirectory(), @".cf/config.json")))
+			{
+				JsonSerializer serializer = new JsonSerializer();
+				return (Config)serializer.Deserialize(file, typeof(Config));
+			}
+		}
+
+		private static string GetHomeDirectory()
+		{
+			string homeDrive = Environment.GetEnvironmentVariable("HOMEDRIVE");
+			string homePath = Environment.GetEnvironmentVariable("HOMEPATH");
+			string homeUnix = Environment.GetEnvironmentVariable("HOME");
+
+			if ((!string.IsNullOrEmpty(homeDrive)) && (!string.IsNullOrEmpty(homePath)))
+			{
+				return Path.Combine(homeDrive, homePath);
+			}
+			else if (!string.IsNullOrEmpty(homeUnix))
+			{
+				return homeUnix;
+			}
+			else
+			{
+				return null;
+			}
+		}
     }
 }

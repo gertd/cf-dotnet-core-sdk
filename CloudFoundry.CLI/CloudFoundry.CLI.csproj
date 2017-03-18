@@ -5,4 +5,8 @@
     <TargetFramework>netcoreapp1.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\CloudFoundry.CloudController.Common\CloudFoundry.CloudController.Common.csproj" />
+    <ProjectReference Include="..\CloudFoundry.UAA.Client\CloudFoundry.UAA.Client.csproj" />
+  </ItemGroup>
 </Project>

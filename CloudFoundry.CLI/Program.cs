@@ -1,12 +1,14 @@
 ﻿using System;
-
+using CloudFoundry.CloudController.Common.Config;
+                  
 namespace CloudFoundry.CLI
 {
     class Program
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+			var config = Config.Load();
+			Console.WriteLine("APIVersion {0}", config.APIVersion);
         }
     }
 }
