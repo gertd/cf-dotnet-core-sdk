@@ -9,6 +9,8 @@ namespace CloudFoundry.CLI
         {
 			var config = Config.Load();
 			Console.WriteLine("APIVersion {0}", config.APIVersion);
+			config.SSLDisabled = !config.SSLDisabled;
+			config.Save();
         }
     }
 }

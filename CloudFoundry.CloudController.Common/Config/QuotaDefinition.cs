@@ -1,7 +1,7 @@
-﻿using Newtonsoft.Json;
-
-namespace CloudFoundry.CloudController.Common.Config
+﻿namespace CloudFoundry.CloudController.Common.Config
 {
+	using Newtonsoft.Json;
+	
     public class QuotaDefinition
     {
         [JsonProperty(PropertyName = "name")]
