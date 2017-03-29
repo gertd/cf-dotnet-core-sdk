@@ -22,7 +22,7 @@
             {
                 if (value == true)
                 {
-                    throw new NotSupportedException("Cannot skip certificate validation on this platform.");
+                    //throw new NotSupportedException("Cannot skip certificate validation on this platform.");
                 }
             }
         }

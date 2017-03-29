@@ -8,5 +8,10 @@
   <ItemGroup>
     <ProjectReference Include="..\CloudFoundry.CloudController.Common\CloudFoundry.CloudController.Common.csproj" />
     <ProjectReference Include="..\CloudFoundry.UAA.Client\CloudFoundry.UAA.Client.csproj" />
+    <ProjectReference Include="..\CloudFoundry.CloudController.V2.Client\CloudFoundry.CloudController.V2.Client.csproj" />
+    <ProjectReference Include="..\CloudFoundry.CloudController.V3.Client\CloudFoundry.CloudController.V3.Client.csproj" />
+    <ProjectReference Include="..\CloudFoundry.Doppler.DropsondeProtocol\CloudFoundry.Doppler.DropsondeProtocol.csproj" />
+    <ProjectReference Include="..\CloudFoundry.Loggregator.Client\CloudFoundry.Loggregator.Client.csproj" />
+    <ProjectReference Include="..\CloudFoundry.Manifests\CloudFoundry.Manifests.csproj" />
   </ItemGroup>
 </Project>

@@ -6,9 +6,9 @@
     using CloudFoundry.CloudController.Common.Http;
     using CloudFoundry.UAA;
     using CloudFoundry.UAA.Exceptions;
-    using Thinktecture.IdentityModel.Client;
+    using IdentityModel.Client;
 
-    internal class ThinkTectureAuth : IAuthentication
+    internal class IdentityModelClient : IAuthentication
     {
         // CF defaults
         private string oauthClient = "cf";
@@ -19,17 +19,17 @@
         private bool skipCertificateValidation;
         private Token token = new Token();
 
-        internal ThinkTectureAuth(Uri authenticationUri)
+        internal IdentityModelClient(Uri authenticationUri)
             : this(authenticationUri, null)
         {
         }
 
-        internal ThinkTectureAuth(Uri authenticationUri, Uri httpProxy)
+        internal IdentityModelClient(Uri authenticationUri, Uri httpProxy)
             : this(authenticationUri, httpProxy, false)
         {
         }
 
-        internal ThinkTectureAuth(Uri authenticationUri, Uri httpProxy, bool skipCertificateValidation)
+        internal IdentityModelClient(Uri authenticationUri, Uri httpProxy, bool skipCertificateValidation)
         {
             this.oauthTarget = authenticationUri;
             this.httpProxy = httpProxy;
@@ -61,7 +61,12 @@
                 httpClientHandler.OverrideAcceptHeader = "application/json";
                 httpClientHandler.SkipCertificateValidation = this.skipCertificateValidation;
 
-                var client = new OAuth2Client(this.oauthTarget, this.oauthClient, this.oauthSecret, httpClientHandler);
+				var client = new TokenClient(oauthTarget.AbsoluteUri, httpClientHandler)
+				{
+					ClientId = oauthClient,
+					ClientSecret = oauthSecret,
+                    AuthenticationStyle = AuthenticationStyle.BasicAuthentication
+				};
 
                 this.token.Expires = DateTime.Now;
 
@@ -111,14 +116,14 @@
 
         private static void CheckTokenResponseError(TokenResponse tokenResponse)
         {
-            if (tokenResponse.IsHttpError)
+			if (tokenResponse.ErrorType != ResponseErrorType.None)
             {
                 throw new AuthenticationException(
                     string.Format(
                     CultureInfo.InvariantCulture,
                     "Unable to connect to target. HTTP Error: {0}. HTTP Error Code {1}",
                     tokenResponse.HttpErrorReason,
-                    tokenResponse.HttpErrorStatusCode));
+					tokenResponse.HttpStatusCode));
             }
 
             if (tokenResponse.IsError)
@@ -143,7 +148,13 @@
                 httpClientHandler.OverrideAcceptHeader = "application/json";
                 httpClientHandler.SkipCertificateValidation = this.skipCertificateValidation;
 
-                var client = new OAuth2Client(this.oauthTarget, this.oauthClient, this.oauthSecret, httpClientHandler);
+				var client = new TokenClient(oauthTarget.AbsoluteUri, httpClientHandler)
+				{
+					ClientId = oauthClient,
+					ClientSecret = oauthSecret,
+                    AuthenticationStyle = AuthenticationStyle.BasicAuthentication
+				};
+
                 var tokenResponse = await client.RequestRefreshTokenAsync(refreshToken);
                 CheckTokenResponseError(tokenResponse);
                 return tokenResponse;

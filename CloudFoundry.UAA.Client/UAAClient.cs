@@ -42,7 +42,7 @@
         public UAAClient(Uri authenticationUri, Uri httpProxy, bool skipCertificateValidation)
         {
             // this.authentication = new ThinkTectureAuth(authenticationUri, httpProxy, skipCertificateValidation);
-            this.authentication = new AuthenticationImpl(authenticationUri, httpProxy, skipCertificateValidation);
+			this.authentication = new IdentityModelClient(authenticationUri, httpProxy, skipCertificateValidation);
             this.targetUri = authenticationUri;
         }
 
